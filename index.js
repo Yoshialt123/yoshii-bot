@@ -52,5 +52,3 @@ login({ email: appConfig.fbEmail, password: appConfig.fbPassword }, (err, api) =
     }
   });
 });
-
-const PAGE_ACCESS_TOKEN = appConfig.pageAccessToken; 
