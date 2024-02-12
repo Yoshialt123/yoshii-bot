@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const login = require('fb-chat-api'); 
+const login = require('fca-unofficial'); 
 const express = require('express');
 const dotenv = require('dotenv'); 
 const config = require('./config'); 
