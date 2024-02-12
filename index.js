@@ -17,25 +17,40 @@ function loadConfiguration() {
   } catch (error) {
     if (error.code === 'ENOENT') {
       console.log('appstate.json not found, loading config.json');
-      return require(configPath); // Return config directly
+      return require(configPath); 
     } else {
       console.error('Error loading appstate.json:', error);
-      throw error; // Re-throw for serious errors
+      throw error; 
     }
   }
 }
 
-
 const appConfig = loadConfiguration();
 
-
+// ... (Rest of your Express server setup, if applicable)
 
 login({ email: appConfig.fbEmail, password: appConfig.fbPassword }, (err, api) => {
-if (err) return console.error(err);
+  if (err) return console.error(err);
 
-  
+  api.setOptions({ listenEvents: true });
+
+  const stopListening = api.listen((err, event) => {
+    if (err) return console.error(err);
+
+    switch (event.type) {
+      case "message": 
+        if (!event.body.startsWith(appConfig.commandPrefix)) return; 
+
+        const commandName = event.body.slice(appConfig.commandPrefix.length).split(' ')[0];
+        const args = event.body.slice(appConfig.commandPrefix.length + commandName.length + 1);
+
+        handleCommand(api, commandName, args, event); 
+        break;
+      // ...case statements for other event types...
+      default:
+          console.log(event); // Log unknown events if needed
+    }
+  });
 });
 
-
 const PAGE_ACCESS_TOKEN = appConfig.pageAccessToken; 
-
