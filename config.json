@@ -2,4 +2,5 @@
     "email": "your_facebook_email",
     "password": "your_facebook_password",
     "pageAccessToken": "your_page_access_token"
+    "commandPrefix": "!"
   }
